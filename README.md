@@ -84,6 +84,41 @@ O sistema está organizado nos seguintes pacotes principais:
 - Registra os resultados de uma competição
 - Define atletas vencedores (ouro, prata, bronze)
 
+## Histórias de Usuário
+
+### US01: Cadastro de Competições
+**Como** organizador das Olimpíadas  
+**Eu quero** cadastrar novas competições no sistema  
+**Para que** eu possa organizar e gerenciar todas as modalidades esportivas do evento
+
+**Critérios de Aceitação:**
+- Devo poder inserir nome da modalidade, data, horário e local
+- O sistema deve validar se o local está disponível no horário solicitado
+- Devo receber confirmação do cadastro bem-sucedido
+- O sistema deve impedir conflitos de horário no mesmo local
+
+### US02: Inscrição de Atletas
+**Como** atleta participante  
+**Eu quero** me inscrever em competições específicas  
+**Para que** eu possa participar das modalidades esportivas das Olimpíadas
+
+**Critérios de Aceitação:**
+- Devo poder selecionar a competição desejada
+- O sistema deve validar se represento apenas um país por modalidade
+- Devo poder me inscrever em múltiplas competições
+- O sistema deve confirmar minha inscrição
+
+### US03: Geração de Relatórios de Medalhas
+**Como** organizador das Olimpíadas  
+**Eu quero** gerar relatórios de medalhas por país  
+**Para que** eu possa acompanhar o desempenho das nações participantes
+
+**Critérios de Aceitação:**
+- O relatório deve mostrar medalhas de ouro, prata e bronze por país
+- Devo poder visualizar o ranking geral de países
+- O relatório deve ser atualizado automaticamente após cada competição
+- Devo poder exportar o relatório em formato PDF
+
 ## Regras de Negócio
 
 1. **Cadastro de competições**: Sistema deve permitir cadastro completo com validações de data e local

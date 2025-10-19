@@ -1,0 +1,25 @@
+@startuml
+title Diagrama de Componentes - Sistema de Gestão Olímpica
+
+component "Interface de Usuário" as UI
+component "Módulo de Inscrições" as ModInscricao
+component "Módulo de Competições" as ModCompeticao
+component "Módulo de Alocação" as ModAlocacao
+component "Módulo de Resultados" as ModResultados
+component "Módulo de Relatórios" as ModRelatorios
+database "Banco de Dados Olímpico" as DB
+
+UI --> ModInscricao : Inscrever atletas
+UI --> ModCompeticao : Cadastrar competições
+UI --> ModAlocacao : Alocar locais
+UI --> ModResultados : Registrar resultados
+UI --> ModRelatorios : Solicitar relatórios
+
+ModInscricao --> DB
+ModCompeticao --> DB
+ModAlocacao --> DB
+ModResultados --> DB
+ModRelatorios --> DB
+
+ModResultados --> ModRelatorios : Envia dados de medalhas
+@enduml
