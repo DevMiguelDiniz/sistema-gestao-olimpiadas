@@ -1,0 +1,2 @@
+## Link do projeto no lucidchart: 
+https://lucid.app/lucidchart/7f864cff-505d-4f98-b19e-09cbd7674fb9/edit?viewport_loc=536%2C243%2C3396%2C1978%2CHWEp-vi-RSFO&invitationId=inv_9499ac68-3156-4918-acad-35b86e46165c
