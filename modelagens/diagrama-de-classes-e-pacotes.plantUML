@@ -1,0 +1,162 @@
+@startuml OlympicManagementSystem
+
+skinparam monochrome true
+skinparam ClassAttributeIconStyle none
+skinparam packageStyle rectangle
+
+package "controller" {
+  class CompeticaoController {
+    + cadastrarCompeticao(CompeticaoDTO): CompeticaoDTO
+    + buscarCompeticao(id): CompeticaoDTO
+    + buscarCompeticoesPorLocal(localId): List<CompeticaoDTO>
+    + registrarResultado(competicaoId, ResultadoDTO): ResultadoDTO
+  }
+
+  class AtletaController {
+    + inscreverAtleta(InscricaoDTO): InscricaoDTO
+  }
+
+  class RelatorioController {
+    + gerarRelatorioMedalhas(): List<RelatorioMedalhasDTO>
+  }
+}
+
+package "service" {
+  class CompeticaoService {
+    + criar(Competicao)
+    + buscarPorId(id): Competicao
+    + registrarResultado(competicaoId, resultados)
+    - validarAlocacaoLocal(Competicao)
+    - calcularMedalhas(Competicao, resultados)
+  }
+
+  class AtletaService {
+    + inscrever(Inscricao)
+    - validarRegraUmPaisPorModalidade(Atleta, Modalidade)
+  }
+
+  class RelatorioService {
+    + gerarMedalhasPorPais(): List<MedalhasPorPais>
+  }
+}
+
+package "repository" {
+  interface CompeticaoRepository
+  interface AtletaRepository
+  interface InscricaoRepository
+  interface PaisRepository
+  interface LocalRepository
+  interface ResultadoRepository
+}
+
+package "model" {
+  class Competicao {
+    - id: Long
+    - nomeModalidade: String
+    - data: Date
+    - horario: Time
+    - local: Local
+    + listaAtletasInscritos: List<Atleta>
+  }
+
+  class Atleta {
+    - id: Long
+    - nome: String
+    - pais: Pais
+  }
+
+  class Pais {
+    - id: Long
+    - nome: String
+    - codigo: String
+  }
+
+  class Local {
+    - id: Long
+    - nome: String
+    - capacidade: Integer
+  }
+
+  class Inscricao {
+    - id: Long
+    - atleta: Atleta
+    - competicao: Competicao
+  }
+
+  class Resultado {
+    - id: Long
+    - competicao: Competicao
+    - ouro: Atleta
+    - prata: Atleta
+    - bronze: Atleta
+    - classificados: Map<Atleta, Posicao>
+  }
+
+  class MedalhasPorPais {
+    - pais: Pais
+    - ouro: Integer
+    - prata: Integer
+    - bronze: Integer
+  }
+}
+
+
+package "dto" {
+  class CompeticaoDTO {
+    + nomeModalidade: String
+    + data: String
+    + localId: Long
+  }
+
+  class InscricaoDTO {
+    + atletaId: Long
+    + competicaoId: Long
+    + paisId: Long
+  }
+
+  class ResultadoDTO {
+    + ouroAtletaId: Long
+    + prataAtletaId: Long
+    + bronzeAtletaId: Long
+  }
+
+  class RelatorioMedalhasDTO {
+    + pais: String
+    + ouro: Integer
+    + prata: Integer
+    + bronze: Integer
+  }
+}
+
+CompeticaoController ..> CompeticaoService : usa
+AtletaController ..> AtletaService : usa
+RelatorioController ..> RelatorioService : usa
+
+CompeticaoService ..> CompeticaoRepository : usa
+CompeticaoService ..> LocalRepository : usa
+CompeticaoService ..> ResultadoRepository : usa
+AtletaService ..> AtletaRepository : usa
+AtletaService ..> InscricaoRepository : usa
+RelatorioService ..> PaisRepository : usa
+RelatorioService ..> ResultadoRepository : usa
+
+CompeticaoController ..> CompeticaoDTO
+AtletaController ..> InscricaoDTO
+RelatorioController ..> RelatorioMedalhasDTO
+
+CompeticaoService ..> Competicao
+AtletaService ..> Atleta
+CompeticaoRepository ..> Competicao
+AtletaRepository ..> Atleta
+
+
+Competicao "1" -- "1" Local : alocadaEm
+Resultado "1" -- "1" Competicao : registra
+Inscricao "*" -- "1" Competicao : em
+Inscricao "*" -- "1" Atleta : feitaPor
+Atleta "many" -- "1" Pais : representa
+Competicao "1" -- "many" Inscricao : tem
+
+Resultado ..> Atleta : ouro/prata/bronze
+
+@enduml
